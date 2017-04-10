@@ -1,0 +1,111 @@
+\usepackage{xspace,amsmath,amsfonts,amssymb,hyperref,tikz,multirow,wrapfig,tabularx,hhline,enumitem,stmaryrd, placeins  }
+
+\usepackage{siunitx}
+
+\newcommand{\F}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\adv}{\ensuremath{\mathcal{A}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\etal}{{\sl et~al.~}}
+\newcommand{\eg}{{\sl e.g.}}
+\newcommand{\ie}{{\sl i.e.}}
+\newcommand{\apriori}{{\sl a~priori\/}\xspace}
+\newcommand{\f}[1]{\ensuremath{\mathcal{F}_{\sf #1}}}
+
+% F style encoding
+%\newcommand{\encode}[3]{\ensuremath{F^\textsf{#1}_{#2}(#3)}}
+% bracket style encoding
+\newcommand{\encode}[3][]{\ensuremath{\llbracket #3\rrbracket^\textsf{#1}_{#2}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\algo}[1]{\ensuremath{\text{\sf #1}}\xspace}
+\newcommand{\command}[1]{\ensuremath{\text{\sc #1}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%
+
+%\iffullversion
+    \usepackage{amsthm}
+    \newtheorem{theorem}{Theorem}
+    \newtheorem{definition}[theorem]{Definition}
+    \newtheorem{claim}[theorem]{Claim}
+    \newtheorem{lemma}[theorem]{Lemma}
+%\else
+%    \newtheorem{theorem}{Theorem}
+%\fi
+
+\newtheorem{corol}[theorem]{Corollary}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{obs}[theorem]{Observation}
+\newtheorem{conj}[theorem]{Conjecture}
+
+\newenvironment{proofof}[1]{\begin{proof}[Proof of #1.]}{\end{proof}}
+\newenvironment{proofsketch}{\begin{proof}[Proof Sketch]}{\end{proof}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\namedref}[2]{\hyperref[#2]{#1~\ref*{#2}}}
+%% if you don't like it, use this instead:
+%\newcommand{\namedref}[2]{#1~\ref{#2}}
+\newcommand{\chapterref}[1]{\namedref{Chapter}{#1}}
+\newcommand{\sectionref}[1]{\namedref{Section}{#1}}
+\newcommand{\theoremref}[1]{\namedref{Theorem}{#1}}
+\newcommand{\definitionref}[1]{\namedref{Definition}{#1}}
+\newcommand{\corollaryref}[1]{\namedref{Corollary}{#1}}
+\newcommand{\obsref}[1]{\namedref{Observation}{#1}}
+\newcommand{\lemmaref}[1]{\namedref{Lemma}{#1}}
+\newcommand{\claimref}[1]{\namedref{Claim}{#1}}
+\newcommand{\figureref}[1]{\namedref{Figure}{#1}}
+\newcommand{\hybridref}[1]{\namedref{Hybrid}{#1}}
+\newcommand{\stepref}[1]{\namedref{Step}{#1}}
+\newcommand{\subfigureref}[2]{\hyperref[#1]{Figure~\ref*{#1}#2}}
+\newcommand{\equationref}[1]{\namedref{Equation}{#1}}
+\newcommand{\appendixref}[1]{\namedref{Appendix}{#1}}
+\newcommand{\sid}{\textsf{sid}}
+
+\definecolor{darkred}{rgb}{0.5, 0, 0} 
+\definecolor{darkgreen}{rgb}{0, 0.5, 0} 
+\definecolor{darkblue}{rgb}{0,0,0.5} 
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkred,
+    citecolor=darkgreen,
+    urlcolor=darkblue   
+}
+
+% normal mathcal
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+%%%%%%%%%%
+
+\newcommand{\todo}[1]{%
+%    \mbox{}% prevent marginpar from being on previous paragraph
+%    \marginpar{%
+%        \colorbox{red!80!black}{\textcolor{white}{to-do}}%
+%        \vspace*{-22pt}% hack!
+%    }%
+    \textcolor{red}{#1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newlist{hybrids}{enumerate}{3}
+\setlist[hybrids]{label=\textit{Hybrid \arabic* },labelwidth=10pt,align=left,leftmargin=*,itemindent=38.3pt,topsep=6pt,itemsep=4pt, listparindent=10pt,parsep=2pt}
+\setlist[hybrids,1]{start=0} 
+
+
+
+% Beginning of definitions
+%\usepackage{environ}
+%
+%\newif\ifappendix
+%\NewEnviron{maybeappendix}[1]
+%{\ifappendix
+%	\expandafter\global\expandafter\let\csname putmaybeappendix#1\endcsname\BODY%
+%	\else
+%	\expandafter\newcommand\csname putmaybeappendix#1\endcsname{}\BODY%
+%	\fi}
+%\newcommand{\putmaybeappendix}[1]{\csname putmaybeappendix#1\endcsname}
+% End of definitions
