@@ -8,8 +8,9 @@
 *.synctex
 *.pdf
 *.dvi
-
-
+*.fls
+*.fdb_latexmk
+latexmkrc
 *.pptx
 *.xlsx
 *.sty
