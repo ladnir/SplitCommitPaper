@@ -109,3 +109,173 @@
 %	\fi}
 %\newcommand{\putmaybeappendix}[1]{\csname putmaybeappendix#1\endcsname}
 % End of definitions
+
+%Added from FJNT16 paper
+\newcommand{\A}{\textsf{A}\xspace} 
+\newcommand{\B}{\textsf{B}\xspace} 
+\newcommand{\C}{\textsf{C}\xspace} 
+\newcommand{\E}{\textsf{E}\xspace} 
+\newcommand{\Pone}{\ensuremath{\mathsf{P_1}}\xspace}
+\newcommand{\Ptwo}{\ensuremath{\mathsf{P_2}}\xspace}
+\newcommand{\mG}{\ensuremath{\mathcal{G}}\xspace}
+\newcommand{\mA}{\ensuremath{\mathcal{A}}\xspace}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}\xspace}
+\newcommand{\mT}{\ensuremath{\mathcal{T}}\xspace}
+\newcommand{\mB}{\ensuremath{\mathcal{B}}\xspace}
+\newcommand{\mP}{\ensuremath{\mathcal{P}}\xspace}
+\newcommand{\mZ}{\ensuremath{\mathcal{Z}}\xspace}
+\newcommand{\snd}{\ensuremath{P_s}\xspace}
+\newcommand{\rec}{\ensuremath{P_r}\xspace}
+
+\renewcommand{\Game}{\operatorname{Game}}
+\newcommand{\Ind}{\operatorname{Ind}}
+\newcommand{\prop}{\operatorname{prop}}
+\newcommand{\gamePRG}{\operatorname{PRG}}
+\newcommand{\PRG}{\ensuremath{\textsf{PRG}}\xspace}
+\newcommand{\prg}{\ensuremath{\text{prg}}\xspace}
+\newcommand{\Det}{\operatorname{Det}}
+\newcommand{\Der}{\operatorname{Der}}
+
+\newcommand{\Ex}{\ensuremath{\mathsf{Ex}}\xspace}
+\newcommand{\Guess}{\textsc{Guess}}
+
+% Sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+%%\newcommand{\K}{\mathbb{K}}
+\newcommand{\Field}{\mathbb{F}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\zo}{\ensuremath{\{0,1\}}}
+\newcommand{\zp}{\ensuremath{\mathbb{Z}_p}}
+\newcommand{\zn}{\ensuremath{\mathbb{Z}_n}}
+\newcommand{\zq}{\ensuremath{\mathbb{Z}_q}}
+\newcommand{\zpstar}{\ensuremath{\mathbb{Z}_p^*}}
+\newcommand{\znstar}{\ensuremath{\mathbb{Z}_n^*}}
+\newcommand{\zqstar}{\ensuremath{\mathbb{Z}_q^*}}
+
+% Macros
+\newcommand{\cmd}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\nin}{\ensuremath{\not \in}\xspace}
+\newcommand{\myand}{\ensuremath{\wedge}\xspace}
+\newcommand{\myor}{\ensuremath{\vee}\xspace}
+\newcommand{\myset}[1]{\ensuremath{\left\{ #1 \right\}}\xspace}
+\newcommand{\myoset}[1]{\ensuremath{\left( #1 \right)}\xspace}
+\newcommand{\myosset}[1]{\ensuremath{( #1 )}\xspace}
+\newcommand{\ord}[1]{\ensuremath{\left | #1 \right |}\xspace}
+\newcommand{\myabs}[1]{\ensuremath{\left | #1 \right |}\xspace}
+\newcommand{\mysetminus}[1]{\ensuremath{\setminus { #1 }}\xspace}
+\newcommand{\WLOG}{\emph{w.l.o.g.}\xspace}
+\newcommand{\mymat}[2]{\ensuremath{\text{Mat}_{#1 \times #2}}\xspace}
+\newcommand{\xor}{\ensuremath{\oplus}}
+\newcommand\concat{\mathbin{\|}}
+\newcommand{\ant}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\key}[3][K]{\ensuremath{{#1}_{#3}^{#2}}\xspace}
+\newcommand{\negl}{\operatorname{negl}}
+\newcommand{\ham}{\operatorname{ham}}
+\newcommand{\notsym}{\ensuremath{\mathds{1}}\xspace}
+\newcommand{\bigoh}{\ensuremath{\mathcal{O}}\xspace}
+
+\newcommand{\sample}{\ensuremath{\in_R}\xspace}
+\newcommand{\store}{\ensuremath{\leftarrow}\xspace}
+\newcommand{\true}{\cmd{true}\xspace}
+\newcommand{\false}{\cmd{false}\xspace}
+\newcommand{\bool}{\cmd{bool}\xspace}
+\newcommand{\ind}[1][]{\ensuremath{\stackrel{#1}{\approx}}\xspace}
+
+% Variables
+\newcommand{\csec}{\ensuremath{\kappa}\xspace}
+\newcommand{\ssec}{\ensuremath{s}\xspace}
+\newcommand{\codesize}{\ensuremath{n}\xspace}
+\newcommand{\codedistance}{\ensuremath{d}\xspace}
+\newcommand{\codeword}{\ensuremath{\vec{c}}\xspace}
+\newcommand{\code}{\ensuremath{\mathcal{C}}\xspace}
+\newcommand{\len}{\ensuremath{k}\xspace}
+
+% Functionalities
+\newcommand{\ifunc}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\HCOM}{\ensuremath{\ifunc_{\textsf{HCOM}}}\xspace}
+\newcommand{\EHCOM}{\ensuremath{\ifunc_{\textsf{EHCOM}}}\xspace}
+\newcommand{\OT}{\ensuremath{\ifunc_{\textsf{OT}}}\xspace}
+\newcommand{\ROT}{\ensuremath{\ifunc_{\textsf{ROT}}}\xspace}
+
+% Protocol Specific
+\newcommand{\PHCOM}{\ensuremath{\Uppi_{\textsf{HCOM}}}\xspace}
+\newcommand{\PEHCOM}{\ensuremath{\Uppi_{\textsf{EHCOM}}}\xspace}
+
+\newcommand{\Init}{\textbf{Init}\xspace}
+\newcommand{\Commit}{\textbf{Commit}\xspace}
+\newcommand{\ChosenCommit}{\textbf{Chosen-Commit}\xspace}
+\newcommand{\ExtendedOpen}{\textbf{Extended-Open}\xspace}
+\newcommand{\Open}{\textbf{Open}\xspace}
+\newcommand{\Addition}{\textbf{Addition}\xspace}
+\newcommand{\BatchOpen}{\textbf{Batch-Open}\xspace}
+
+\newcommand{\commitcounter}{\ensuremath{\mathcal{T}}\xspace}
+\newcommand{\currentcommit}{\ensuremath{\mathcal{J}}\xspace}
+\newcommand{\ComVer}{\ensuremath{\mathsf{ComVer}}\xspace}
+\newcommand{\numofcommits}{\ensuremath{\gamma}\xspace}
+\newcommand{\numoftotalcommits}{\ensuremath{\delta}\xspace}
+\newcommand{\numberoflcc}{\fsec}
+
+
+% Functionality commands
+\newcommand{\init}{\cmd{init}\xspace}
+\newcommand{\open}{\cmd{open}\xspace}
+\newcommand{\opened}{\cmd{opened}\xspace}
+\newcommand{\opening}{\cmd{opening}\xspace}
+\newcommand{\batchopen}{\cmd{batch-open}\xspace}
+\newcommand{\batchopened}{\cmd{batch-opened}\xspace}
+\newcommand{\extendedopen}{\cmd{extended-open}\xspace}
+\newcommand{\extendedopened}{\cmd{extended-opened}\xspace}
+\newcommand{\commit}{\cmd{commit}\xspace}
+\newcommand{\chosencommit}{\cmd{chosen-commit}\xspace}
+\newcommand{\committed}{\cmd{committed}\xspace}
+\newcommand{\chosencommitted}{\cmd{chosen-committed}\xspace}
+\newcommand{\corruptcommit}{\cmd{corrupt-commit}\xspace}
+\newcommand{\nocorrupt}{\cmd{no-corrupt}\xspace}
+\newcommand{\success}{\cmd{success}\xspace}
+\newcommand{\add}{\cmd{add}\xspace}
+\newcommand{\receipt}{\cmd{receipt}\xspace}
+\newcommand{\random}{\cmd{random}\xspace}
+\newcommand{\chosen}{\cmd{chosen}\xspace}
+\newcommand{\chosenreceipt}{\cmd{chosen-receipt}\xspace}
+\newcommand{\sender}{\cmd{sender}\xspace}
+\newcommand{\transfer}{\cmd{transfer}\xspace}
+\newcommand{\linear}{\cmd{linear}\xspace}
+\newcommand{\corruptsender}{\cmd{corrupt-sender}\xspace}
+\newcommand{\corruptreceiver}{\cmd{corrupt-receiver}\xspace}
+\newcommand{\receiver}{\cmd{receiver}\xspace}
+\newcommand{\deliver}{\cmd{deliver}\xspace}
+\newcommand{\abort}{\cmd{abort}\xspace}
+\newcommand{\ssid}{\cmd{ssid}\xspace}
+\newcommand{\cid}{\cmd{cid}\xspace}
+\newcommand{\otid}{\cmd{otid}\xspace}
+
+\newcommand{\cmsg}{\ensuremath{\vec{m}}\xspace}
+\newcommand{\rmsg}{\ensuremath{\vec{r}}\xspace}
+\newcommand{\nmsg}{\ensuremath{\vec{n}}\xspace}
+
+% Reference commands
+\newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\figlab}[1]{\label{fig:#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{thm:#1}}
+\newcommand{\thmlab}[1]{\label{thm:#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{lem:#1}}
+\newcommand{\lemlab}[1]{\label{lem:#1}}
+\newcommand{\colref}[1]{Corollary~\ref{col:#1}}
+\newcommand{\collab}[1]{\label{col:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\seclab}[1]{\label{sec:#1}}
+\newcommand{\applab}[1]{\label{app:#1}}
+\newcommand{\appref}[1]{Appendix~\ref{app:#1}}
+\newcommand{\chapref}[1]{Chapter~\ref{chap:#1}}
+\newcommand{\chaplab}[1]{\label{chap:#1}}
+\newcommand{\tablab}[1]{\label{tab:#1}}
+\newcommand{\tabref}[1]{Table~\ref{tab:#1}}
+\newcommand{\defref}[1]{Definition~\ref{def:#1}}
+\newcommand{\deflab}[1]{\label{def:#1}}
+\newcommand{\gameref}[1]{Game~\ref{game:#1}}
+\newcommand{\gamelab}[1]{\label{game:#1}}
+\newcommand{\eqlab}[1]{\label{eq:#1}}
+\newcommand{\eqnref}[1]{(\ref{eq:#1})}
