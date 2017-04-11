@@ -10,4 +10,90 @@ Finally, show how to handle chosen message with homomorphic operations on them.
 
 ---------------------------------------------------------------------------------------
 
-In this section we will give a basic overview of how to construct and use the split commit library. First, let us consider the case of committing to $n$ radnom commitments.
+
+\subsection{Random Commitments}
+In this section we will give a basic overview of how to construct and use the split commit library. First, let us consider the case of committing to \texttt{num\_commits} random commitments. For a given bit size, the primary class can be constructed as
+\begin{lstlisting}
+#include "split-commit/split-commit-rec.h"
+#include "split-commit/split-commit-snd.h"
+...
+SplitCommitSender commit_snd(input_bit_size);
+SplitCommitReceiver commit_rec(input_bit_size);
+\end{lstlisting}
+
+The commitments themselves are held in a vector like class called \texttt{BYTEArrayVector}. Due to the nature of the commitment, the sender must have two such containers, one to hold each share of the commitment. The receiver will then hold some combination of these two shares in their own \texttt{BYTEArrayVector}.
+\begin{lstlisting}
+std::array<BYTEArrayVector, 2> send_commit_shares{
+	BYTEArrayVector(num_commits, commit_snd.cword_bytes),
+	BYTEArrayVector(num_commits, commit_snd.cword_bytes)
+};
+
+BYTEArrayVector rec_commit_shares(num_commits, commit_rec.cword_bytes);
+\end{lstlisting}
+To fill these containers with the random commitments, the base OTs for the \texttt{SplitCommit*} objects must be set. To set the sender's class, we must first construct a random number generator \texttt{osuCrypto::PRNG send\_rnd} and a communication socket \texttt{osuCrypto::Channel send\_channel.} 
+\begin{lstlisting}
+commit_snd.ComputeAndSetSeedOTs(send_rnd, send_channel);
+\end{lstlisting}
+The analogous operation must be applied to the \texttt{commit\_rec} object in another thread/program. Once base OTs are set, the \texttt{SplitCommit*} objects can repeatedly be used to commit and decommit to many values. For example, the sender calls
+\begin{lstlisting}     
+commit_snd.Commit(send_commit_shares, send_channel);
+...
+commit_snd.Decommit(send_commit_shares, send_channel);
+\end{lstlisting}
+to interactively commits and decommits to \texttt{num\_commits} random values and stores the resulting commitment data in \texttt{send\_commi\allowbreak t\_shares}. It is important to not that these function calls results in two way communication across the  \texttt{send\_channel} and as such the receiver object \texttt{commit\_rec} must make the analogous function calls in a different thread/program. 
+
+After the call to \texttt{Commit}, \texttt{send\_commit\_shares} holds two containers, where the $i$'th rows hold a 2 out of 2 XOR secret sharing of the committed codeword. The first \texttt{input\_bit\_size} bits of which is the actually committed value while the remaining bits contain the code word parity information. For the case where $\texttt{input\_bit\_size} =128$, there is a utility function called \texttt{XOR\_128} for computing the random value that is committed to.
+\begin{lstlisting}     
+std::vector<char> value(input_bit_size / 8);
+XOR_128(value.data(),commit_snd[0][i], commit_snd[1][i]);
+\end{lstlisting}
+
+Concurrently to the sender calling \texttt{Commit} and \texttt{Decommit}, the receiver must call 
+\begin{lstlisting}     
+if (commit_rec.Commit(rec_commit_shares, rec_rnd, rec_channel) == false) {
+	throw std::runtime_error("bad commitment check, other party tried to cheat.");
+}
+...
+BYTEArrayVector result_values(num_commits, commit_rec.msg_bytes);
+if (commit_rec.Decommit(rec_commit_shares, result_values, rec_channel) == false)  {
+	throw std::runtime_error("bad decommitment check, other party tried to cheat.");
+}
+\end{lstlisting}
+Note that the receiver is required to check the return values of these function calls to ensure both the commitments and decommitments were correctly performed.
+
+In addition to the \texttt{Decommit} function shown above, the library provides a more efficient mechanism for decommitting known as batch decommit. This method send roughly one fourth the amount of data over the network. The sole disadvantage to this approach is that it requires three rounds of interaction as opposed to a single round. This is due to this implementation requiring a challenge to be sent for which the sender must successfully answer. However, in some settings, these additional rounds can be eliminated using the Fiat Shamir optimization in the random oracle model\cite{XXX}.
+
+\subsection{XOR Homomorphic Operations}
+
+
+How we turn our attention to performing homomorphic operations on the committed values. Later we will extend these operations to the case where the committed values are chosen values. Any subset of the committed values can be combined simply by XOR-ing their commitments together. For the common case of $\texttt{input\_bit\_size} =128$ the library provides the utility function \texttt{XOR\_CodeWords} to combine commitments. For example, the sender can create a new commitment to the XOR of the $i$'th and $j$'th  commitment as follows
+\begin{lstlisting}     
+std::array<BYTEArrayVector, 2> new_commit{
+	BYTEArrayVector(1, commit_snd.cword_bytes),
+	BYTEArrayVector(1, commit_snd.cword_bytes)
+};
+
+XOR_CodeWords(new_commit[0][0].data(),commit_snd[0][i], commit_snd[0][j]);
+XOR_CodeWords(new_commit[1][0].data(),commit_snd[1][i], commit_snd[1][j]);
+\end{lstlisting}
+The receiver then must perform the analogous operation as follows
+\begin{lstlisting}     
+BYTEArrayVector new_commit(1, commit_rec.cword_bytes);
+XOR_CodeWords(new_commit[0].data(),commit_rec[i], commit_rec[j]);
+\end{lstlisting}
+Note that the sender must XOR together both of the shares that they hold while the receiver only performs a single XOR. These new commitments can then be decommitted as shown above.
+
+\subsection{Bit Commitment}
+
+For the case of $\texttt{input\_bit\_size} =1$, the user must manually compute the sender's committed value as 
+\begin{lstlisting}     
+uint8_t value = (commit_snd[0][i][0] ^ commit_snd[1][i][0]) & 1;
+\end{lstlisting}
+in lieu of the \texttt{XOR\_128} function. In addition, when performing homomorphic operations on the commitments, the function \texttt{XOR\_BitCodeWords} should be used. Finally, the values reported to the receiver in the \texttt{Decommit} and \texttt{BatchDecommit} function calls are packed. To obtain the value at a specific position, the utility function \texttt{GetBit} returns the value of the bit at a given index. Note that due to the bits being packed in the result container \texttt{result\_values}, it should be initialized as
+\begin{lstlisting}     
+ BYTEArrayVector result_values(BITS_TO_BYTES(num_commits), 1);
+\end{lstlisting}
+
+\subsection{Chosen Message}
+
+To use this library with chosen message, additional work by the user is required. The central idea is that a commitment to a random value can be translated to a commitment of a chosen value simply by publishing the XOR difference between the two values. The user must maintain a ``translation" value for each commitment that it hold. To then perform homomorphic operations, the corresponding translation value must also be XOR-ed together, resulting in the translation value for resulting commitment.
