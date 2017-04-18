@@ -1,17 +1,21 @@
 % -*- root:main.tex -*-
 
 \section{Tutorial}
+SplitCommit and its dependencies can be found at \url{https://github.com/AarhusCrypto/SplitCommit}. This project utilizes the cmake build systems and capable of integrating into larger build systems with minimal overhead. Apart from cmake and other basic utilities, the implementation builds on the libOTe~\cite{libOTe} library which requires the c++ utility library Boost~\cite{boost} and cryptography libary Miracl~\cite{miracl}. For complete details on how to build these utilities, we refer the reader to the readme file contained in the git repository.
 
-Giving read code examples here could be good. I was thinking we could show how to set of networking, and a single two thread program that commits to 100 values or something.
 
-We should also show how to perform homomorphic operations on them.
 
-Then we can add batch decommit to the mix.
-
-Finally, show how to handle chosen message with homomorphic operations on them.
-
----------------------------------------------------------------------------------------
-
+%
+%Giving read code examples here could be good. I was thinking we could show how to set of networking, and a single two thread program that commits to 100 values or something.
+%
+%We should also show how to perform homomorphic operations on them.
+%
+%Then we can add batch decommit to the mix.
+%
+%Finally, show how to handle chosen message with homomorphic operations on them.
+%
+%---------------------------------------------------------------------------------------
+%
 
 \subsection{Random Commitments}
 In this section we will give a basic overview of how to construct and use the splitcommit library. First, let us consider the case of committing to \texttt{num\_commits} random commitments. For a given bit size, the primary class can be constructed as
@@ -42,9 +46,9 @@ commit_snd.Commit(send_commit_shares, send_channel);
 ...
 commit_snd.Decommit(send_commit_shares, send_channel);
 \end{lstlisting}
-to interactively commits and decommits to \texttt{num\_commits} random values and stores the resulting commitment data in \texttt{send\_commi\allowbreak t\_shares}. It is important to not that these function calls results in two way communication across the  \texttt{send\_channel} and as such the receiver object \texttt{commit\_rec} must make the analogous function calls in a different thread/program. 
+to interactively commits and decommits to \texttt{num\_commits} random values and stores the resulting commitment data in \texttt{send\_commi\allowbreak t\_shares}. It is important to note that these function calls results in two way communication across the  \texttt{send\_channel} and as such the receiver object \texttt{commit\_rec} must make the analogous function calls in a different thread/program. 
 
-After the call to \texttt{Commit}, \texttt{send\_commit\_shares} holds two containers, where the $i$'th rows hold a 2 out of 2 XOR secret sharing of the committed codeword. The first \texttt{input\_bit\_size} bits of which is the actually committed value while the remaining bits contain the code word parity information. For the case where $\texttt{input\_bit\_size} =128$, there is a utility function called \texttt{XOR\_128} for computing the random value that is committed to.
+After the call to \texttt{Commit}, \texttt{send\_commit\_shares} holds two containers, where the $i$'th rows hold a 2 out of 2 XOR secret sharing of the committed codeword. The first \texttt{input\_bit\_size} bits of which is the actually committed value while the remaining bits contain the codeword parity information. For the case where $\texttt{input\_bit\_size} =128$, there is a utility function called \texttt{XOR\_128} for computing the random value that is committed to.
 \begin{lstlisting}     
 std::vector<char> value(input_bit_size / 8);
 XOR_128(value.data(),commit_snd[0][i], commit_snd[1][i]);
@@ -63,7 +67,7 @@ if (commit_rec.Decommit(rec_commit_shares, result_values, rec_channel) == false)
 \end{lstlisting}
 Note that the receiver is required to check the return values of these function calls to ensure both the commitments and decommitments were correctly performed.
 
-In addition to the \texttt{Decommit} function shown above, the library provides a more efficient mechanism for decommitting known as batch decommit. This method send roughly one fourth the amount of data over the network. The sole disadvantage to this approach is that it requires three rounds of interaction as opposed to a single round. This is due to this implementation requiring a challenge to be sent for which the sender must successfully answer. However, in some settings, these additional rounds can be eliminated using the Fiat Shamir optimization~\cite{DBLP:conf/crypto/FiatS86} in the random oracle model.
+In addition to the \texttt{Decommit} function shown above, the library provides a more efficient mechanism for decommitting known as batch decommit. This method send roughly one fourth the amount of data over the network. The disadvantage of this approach is that it requires three rounds of interaction as opposed to a single round and performs additional computation. We note that, with modification to the library, these additional rounds could be eliminated using the Fiat Shamir optimization~\cite{DBLP:conf/crypto/FiatS86} in the random oracle model.
 
 \subsection{XOR Homomorphic Operations}
 
@@ -91,11 +95,11 @@ For the case of $\texttt{input\_bit\_size} =1$, the user must manually compute t
 \begin{lstlisting}     
 uint8_t value = (commit_snd[0][i][0] ^ commit_snd[1][i][0]) & 1;
 \end{lstlisting}
-in lieu of the \texttt{XOR\_128} function. In addition, when performing homomorphic operations on the commitments, the function \texttt{XOR\_BitCodeWords} should be used. Finally, the values reported to the receiver in the \texttt{Decommit} and \texttt{BatchDecommit} function calls are packed. To obtain the value at a specific position, the utility function \texttt{GetBit} returns the value of the bit at a given index. Note that due to the bits being packed in the result container \texttt{result\_values}, it should be initialized as
+in lieu of the \texttt{XOR\_128} function. In addition, when performing homomorphic operations on the commitments, the function \texttt{XOR\_BitCodeWords} can be used. Finally, the values reported to the receiver in the \texttt{Decommit} and \texttt{BatchDecommit} function calls are packed. To obtain the value at a specific position, the utility function \texttt{GetBit} returns the value of the bit at a given index. Note that due to the bits being packed in the result container \texttt{result\_values}, it should be initialized as
 \begin{lstlisting}     
  BYTEArrayVector result_values(BITS_TO_BYTES(num_commits), 1);
 \end{lstlisting}
 
 \subsection{Chosen Message}
 
-To use this library with chosen message, additional work by the user is required. The central idea is that a commitment to a random value can be translated to a commitment of a chosen value simply by publishing the XOR difference between the two values. The user must maintain a ``translation" value for each commitment that it hold. To then perform homomorphic operations, the corresponding translation value must also be XOR-ed together, resulting in the translation value for resulting commitment.
+To use this library with chosen message, additional work by the user is required. The central idea is that a commitment to a random value can be translated to a commitment of a chosen value simply by publishing the XOR difference between the two values. The user must maintain a ``translation" value for each commitment that it holds. To then perform homomorphic operations, the corresponding translation value must also be XOR-ed together, resulting in the translation value for resulting commitment.
