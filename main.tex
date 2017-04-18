@@ -1,8 +1,7 @@
 %\documentclass[11pt,letterpaper]{article}
 
 
-    \documentclass{article}
-    \usepackage[letterpaper,margin=1in]{geometry}
+\documentclass[letterpaper]{llncs}
 
 \input{headers}
     \renewcommand{\floatpagefraction}{.99}
@@ -11,6 +10,7 @@
     
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{fullpage}
 \definecolor{listinggray}{gray}{0.9}
 \definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
 \lstset{
@@ -61,12 +61,16 @@
 
 \begin{document}
 	
-	\title{SplitCommit:\\ Implementing Homomorphic UC Commitments}
+	\title{SplitCommit:\\ Implementing Homomorphic UC Commitments%
+	\thanks{The first author is supported by an ARCS foundation fellowship. This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 731583 (SODA).}}
 	
 	
 	\author{
-		Peter Rindal\thanks{Oregon State University,  {\sf rindalp@oregonstate.edu}. This author is supported by an ARCS foundation fellowship.}, Roberto  Trifiletti\thanks{Aarhus University, {\sf roberto@cs.au.dk}. This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 731583 (SODA).}
-		}
+		Peter Rindal\inst{1} \and Roberto Trifiletti\inst{2}
+		\institute{Oregon State University
+		\\ \email{rindalp@oregonstate.edu} \and
+		Aarhus University
+		\\ \email{roberto@cs.au.dk}}}
 
 	\date{}
 
