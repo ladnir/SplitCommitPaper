@@ -1,3 +1,5 @@
+% -*- root:main.tex -*-
+
 \section{Tutorial}
 
 Giving read code examples here could be good. I was thinking we could show how to set of networking, and a single two thread program that commits to 100 values or something.
@@ -61,7 +63,7 @@ if (commit_rec.Decommit(rec_commit_shares, result_values, rec_channel) == false)
 \end{lstlisting}
 Note that the receiver is required to check the return values of these function calls to ensure both the commitments and decommitments were correctly performed.
 
-In addition to the \texttt{Decommit} function shown above, the library provides a more efficient mechanism for decommitting known as batch decommit. This method send roughly one fourth the amount of data over the network. The sole disadvantage to this approach is that it requires three rounds of interaction as opposed to a single round. This is due to this implementation requiring a challenge to be sent for which the sender must successfully answer. However, in some settings, these additional rounds can be eliminated using the Fiat Shamir optimization in the random oracle model\cite{XXX}.
+In addition to the \texttt{Decommit} function shown above, the library provides a more efficient mechanism for decommitting known as batch decommit. This method send roughly one fourth the amount of data over the network. The sole disadvantage to this approach is that it requires three rounds of interaction as opposed to a single round. This is due to this implementation requiring a challenge to be sent for which the sender must successfully answer. However, in some settings, these additional rounds can be eliminated using the Fiat Shamir optimization~\cite{DBLP:conf/crypto/FiatS86} in the random oracle model.
 
 \subsection{XOR Homomorphic Operations}
 

@@ -1,3 +1,5 @@
+% -*- root:main.tex -*-
+
 \section{Introduction}
 
 A cryptographic commitment scheme can be thought of as the digital equivalent to a  physical box with an associated lock. Imagine a setting where a sending party puts some message inside the box, locks it, and then sends it to a receiving party. As an immediate observation, since the box is locked the receiver cannot figure out what is inside by mere possession of the box. At some later point in time though, the sender can send the key that unlocks the box, and since the box has been in the receiver's custody the whole time it is guaranteed that the message inside is indeed the original message. Translating the above scenario to the digital world, we call the first property \textit{hiding} (receiver can't look inside the box) and the second \textit{binding} (the sender cannot change its content) and it is these properties that are realized by a cryptographic commitment scheme. We use the terms `committing to a message' as the equivalent to sending the locked box and `decomitting to a message' to mean sending the key that unlocks it.

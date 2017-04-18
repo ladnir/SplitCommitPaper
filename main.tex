@@ -57,6 +57,8 @@
 	stringstyle=\color{red}
 }
 
+\newcommand*\samefootnote[1][\value{footnote}]{\footnotemark[#1]}
+
 \begin{document}
 	
 	\title{SplitCommit: Implementing Homomorphic UC Commitments}
@@ -70,7 +72,7 @@
 
 	
 	\begin{abstract}
-	In this work we implement the XOR-homomorphic commmitment scheme of Frederiksen, Jakobsen, Nielsen, and Trifiletti \cite{DBLP:conf/tcc/FrederiksenJNT16}.
+	In this white paper we present SplitCommit, a portable and efficient C++ implementation of the additively homomorphic commmitment scheme of Frederiksen, Jakobsen, Nielsen, and Trifiletti \cite{DBLP:conf/tcc/FrederiksenJNT16}. This document is meant to serve as a light-weight introduction to the scheme and give the reader an overview of its applicability for any given scenario. We include implementation design discussions and performance numbers as well as general usage guidelines. Finally we also include a small tutorial on how to use the library.
 
 	\end{abstract}
 	
@@ -78,15 +80,14 @@
 	\pagestyle{plain}
 	
 	\input{intro}
-	\input{implementing}
-	
-	\input{performance}
 	
 	\input{applications}
+	\input{guidelines}
+
+	\input{implementing}
+	\input{performance}
 	
 	\input{building}
-	
-	
 	\input{tutorial}
 	
 	\bibliographystyle{alpha}
