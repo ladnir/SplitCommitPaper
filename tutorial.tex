@@ -102,4 +102,30 @@ in lieu of the \texttt{XOR\_128} function. In addition, when performing homomorp
 
 \subsection{Chosen Message}
 
-To use this library with chosen message, additional work by the user is required. The central idea is that a commitment to a random value can be translated to a commitment of a chosen value simply by publishing the XOR difference between the two values. The user must maintain a ``translation" value for each commitment that it holds. To then perform homomorphic operations, the corresponding translation value must also be XOR-ed together, resulting in the translation value for resulting commitment.
+To use this library with chosen message, additional work by the user is required. The central idea is that a commitment to a random value can be translated to a commitment of a chosen value simply by publishing the XOR difference between the two values, effectively forming a one-time-pad encryption under the random value which is committed. The user must maintain this ``translation" value for each commitment that it holds. To then perform homomorphic operations, the corresponding translation value must also be XOR-ed together, resulting in the translation value for resulting commitment. In particular, shown below is the operations for the sender to translate the 128 bit commitments made above to chosen message commitments. The value contained in \texttt{translation2} when XORed with the decommitted value of \texttt{new\_commit} will result in the XOR of \texttt{chosen\_message0} and \texttt{chosen\_message0}.
+\begin{lstlisting}     
+...
+
+uint8_t * chosen_message0 = get_msg(0);
+uint8_t * chosen_message1 = get_msg(1);
+
+uint8_t translation0[16], translation1[16];
+
+XOR_128(translation0,  commit_snd[1][0], commit_snd[0][0]);
+XOR_128(translation0, translation0, chosen_message0);
+
+
+XOR_128(translation1,  commit_snd[1][1], commit_snd[0][1]);
+XOR_128(translation1, translation1, chosen_message1);
+
+send_channel.send(translation0, 16);
+send_channel.send(translation1, 16);
+
+uint8_t translation2[16];
+XOR_128(translation2, translation0, translation1);
+
+...
+commit_snd.Decommit(new_commit, send_channel);
+\end{lstlisting}
+
+
