@@ -61,7 +61,7 @@
 
 \begin{document}
 	
-	\title{SplitCommit:\\ Implementing Homomorphic UC Commitments%
+	\title{SplitCommit:\\ Implementing and Analyzing Homomorphic UC Commitments%
 	\thanks{The first author is supported by an ARCS foundation fellowship. This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 731583 (SODA).}}
 	
 	
@@ -79,7 +79,7 @@
 
 	
 	\begin{abstract}
-	In this white paper we present SplitCommit, a portable and efficient C++ implementation of the recent additively homomorphic commmitment scheme of Frederiksen et al. \cite{DBLP:conf/tcc/FrederiksenJNT16}. This document is meant to serve as a light-weight introduction to the scheme and give the reader an overview of its applicability for any given scenario. We include implementation design discussions and performance numbers as well as general usage guidelines. Finally we also include a small tutorial on how to use the library.
+	In this paper we present SplitCommit, a portable and efficient C++ implementation of the recent additively homomorphic commmitment scheme of Frederiksen et al. \cite{DBLP:conf/tcc/FrederiksenJNT16}. We describe numerous optimizations that go into engineering such an implementation, including highly optimized general purpose bit-matrix transposition and efficient ECC encoding given the associated generator matrix. We also survey and analyze in detail the applicability of \cite{DBLP:conf/tcc/FrederiksenJNT16} and include a detailed comparison to the canonical (non-homomorphic) commitment scheme based on a Random Oracle. We include performance benchmarks of the implementation in various network setting, for instance on a 10 Gbps LAN we achieve amortized commitment and decommitment running times of \SI{0.65}{\micro\second} and \SI{0.27}{\micro\second}, respectively. Finally we also include an extensive tutorial on how to use the library.
 
 	\end{abstract}
 	
