@@ -34,7 +34,18 @@ We advocate that even applications where the \textit{homomorphic} property is no
    \end{enumerate}
 \end{description}
 
-
+\begin{figure}
+\begin{center}
+  \small
+  \begin{tabular}{|c||c|c|c|c|c|c|c|}
+    \hline
+    Scheme                 & Setup & Homomorphic & Interactive &\shortstack{Random \\Commit} &  Commit & Decommit & \shortstack{Batch \\Decommit} \\ \hline
+    \cite{DBLP:conf/tcc/FrederiksenJNT16} &  $\kappa$ OTs  &     \textbf{Yes}     &     Yes     &   \textbf{134 bits}    &   262 bits    & 524 bits &    \textbf{128 bits}    \\ \hline
+    Random Oracle             &      \textbf{ No}       &     No      &     \textbf{No}      &   256 bits    &   \textbf{256 bits}    & \textbf{256 bits} &    256 bits    \\\hline
+  \end{tabular}
+  \caption{Comparison to the random oracle commitment scheme.}
+  \end{center}
+\end{figure}
 
 \subsection{Comparison to Random Oracle commitments}
 It is widely know that a random oracle (RO) $h:\zo^* \to \zo^l$ can be used to implement a commitment scheme in a very straight-forward way. In order to commit to a message $m$, the sender computes $c = h(m\|r)$ for some fresh random string $r$ and sends $c$ to the receiver. To decommit, the sender reveals $m$ and $r$ to the receiver, who can then check whether $c = h(m\|r)$ or not. The above scheme can be proven secure in UC-framework if $h$ is modeled as an extractable, programmable random oracle.\footnote{Programmability is required to make the commitment equivocal.} With this assumption the simulator in the proof of security has complete control over the hash function and can both see what values are being hashed (extract) and decide on a particular output (program). This is clearly a very strong assumption on any real-world function (and impossible to achieve in general \cite{DBLP:conf/stoc/CanettiGH98}), and we note for completeness that several other commitment schemes exists using weaker flavors of ROs such as~\cite{DBLP:conf/tcc/HofheinzM04,DBLP:conf/ccs/Canetti0S14}. The latter schemes are however less efficient than the above sketched out scheme, and as such we take a worst-case approach by comparing SplitCommit to the most efficient RO based construction. Even so, it can be seen by the following discussions that the performance of SplitCommit is on par with, and sometimes supersedes that of the RO scheme on several interesting parameters.
@@ -50,15 +61,3 @@ It is widely know that a random oracle (RO) $h:\zo^* \to \zo^l$ can be used to i
   \item[Setup Cost:] SplitCommit requires an intial setup phase involving a number of potentially expensive seed OTs. However, depending on the scope and complexity of the application this can be considered anything from a complete deal-breaker to a negligible added cost. The RO scheme requires no such setup.
   \item[Interactiveness:] The RO scheme is non-interactive in both the commitment and decommitment phase, whereas SplitCommit in it's most efficient mode is interactive in both phases. However as previously mentioned, using the Fiat-Shamir heuristic (which as well requires a RO assumption) this can be turned non-interactive as well.
 \end{description}
-
-
-\begin{figure}
-	\small
-	\begin{tabular}{|c||c|c|c|c|c|c|c|}
-		\hline
-		Scheme                 & Setup & Homomorphic & Interactive &\shortstack{Random \\Commit} &  Commit & Decommit & \shortstack{Batch \\Decommit} \\ \hline
-		\cite{DBLP:conf/tcc/FrederiksenJNT16} &  $\kappa$ OTs  &     \textbf{Yes}     &     Yes     &   \textbf{134 bits}    &   262 bits    & 524 bits &    \textbf{128 bits}    \\ \hline
-		Random Oracle             &      \textbf{ No}       &     No      &     \textbf{No}      &   256 bits    &   \textbf{256 bits}    & \textbf{256 bits} &    256 bits    \\\hline
-	\end{tabular}
-	\caption{Comparison to the random oracle commitment scheme.}
-\end{figure}
