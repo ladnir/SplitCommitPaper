@@ -4,19 +4,22 @@
 \seclab{performance}
 To demonstrate the scalability of the implementation, we perform benchmarks on an Intel Xeon server consisting of 2x 36-core Intel Xeon CPUs (E5-2699 v3 @ 2.30GHz) and 256GB of RAM. In the single threaded setting on a 10Gbps LAN, $n=2^{24}$ commitments on random 128 bit values requires 11 seconds, resulting in 0.65 microseconds per commitment. When decommitting via sending the two secret shares for all $n$ commitments, the implementation requires 5.4 seconds, 0.32 microseconds per decommitment. The same operation performed using batch decommit requires 4.6 seconds, 0.27 microseconds per decommitment. Furthermore, homomorphic operations can be performed extremely fast, simply requiring  a few XOR instructions per operation, requiring less than 1 second for $n$ operations.
 
-We also benchmark our implementation in the 100Mbps WAN setting with a 80ms round trip latency. For $n=2^{24}$, committing  requires 75 seconds, 4.5 microseconds per commitment. Decommiting via sending both secret shares required 505 seconds, 30,2 microseconds per decommit, while the more communication efficient batch decommitment method required 316 seconds, 18.9 microseconds per decommitment.
+We also benchmark our implementation in the 100Mbps WAN setting with a 80ms round trip latency. For $n=2^{24}$, committing  requires 39 seconds, 2.3 microseconds per commitment. Decommiting via sending both secret shares required 106 seconds, 6.2 microseconds per decommit, while the more communication efficient batch decommitment method required 30 seconds, 1.8 microseconds per decommitment.
 
 \begin{figure}
 \begin{center}
   \small
-  \begin{tabular}{|c|c|c|c|}
-    \hline
-    Network & Commit & Decommit &\shortstack{Batch \\Decommit} \\ \hline
-    10Gbps LAN & \SI{0.65}{\micro\second} & \SI{0.32}{\micro\second} & \SI{0.27}{\micro\second} \\
-    100Mbps WAN & \SI{4.5}{\micro\second} & \SI{30.2}{\micro\second} & \SI{18.9}{\micro\second} \\
-    \hline
+  \begin{tabular}{|c|c|c|c|c|}
+  	\hline
+  	      bit size       &   Network   & Commit & Decommit & \shortstack{Batch \\Decommit} \\ \hline
+  	\multirow{3}{*}{128} & 10Gbps LAN  &  0.65  &   0.32   &             0.27              \\
+  	                     &  1Gbps LAN  &  1.2   &   2.0    &             0.79              \\
+  	                     & 100Mbps WAN &  2.3   &   6.2    &              1.8              \\ \hline
+  	 \multirow{3}{*}{1}  & 10Gbps LAN  &  0.07  &   0.12   &             0.13              \\
+  	                     &  1Gbps LAN  &  0.22  &   0.56   &             0.57              \\
+  	                     & 100Mbps WAN &  0.56  &   1.5    &              1.6              \\ \hline
   \end{tabular}
-  \caption{Amortized running times for $n = 2^{24}$ 128-bit values.}
+  \caption{Amortized running times in microseconds ($\mu s$) for $n = 2^{24}$ 128-bit values.}
   \end{center}
 \end{figure}
 
